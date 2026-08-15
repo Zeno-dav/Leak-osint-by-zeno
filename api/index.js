@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export default async function handler(req, res) {
-  const { num, Key } = req.query;
+  const { query, Key } = req.query;
 
   // 1. API Key Check (Missing Key)
   if (!Key) {
