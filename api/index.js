@@ -88,18 +88,18 @@ export default async function handler(req, res) {
   }
   // ----------------------------------------------------
 
-  // 5. Check num parameter
-  if (!num) {
+  // 5. Check query parameter (Yahan 'num' ki jagah 'query' kar diya gaya hai)
+  if (!query) {
     return res.status(400).json({
       success: false,
-      message: "num parameter missing. Please provide a valid number."
+      message: "query parameter missing. Please provide a valid number."
     });
   }
 
   try {
-    // 6. Upstream API Data Fetch
+    // 6. Upstream API Data Fetch (Yahan bhi 'num' ki jagah 'query' fixed hai)
     const response = await fetch(
-      `https://leak-osint.noob73613.workers.dev/?query=${encodeURIComponent(num)}`
+      `https://leak-osint.noob73613.workers.dev/?query=${encodeURIComponent(query)}`
     );
 
     if (!response.ok) {
@@ -126,19 +126,18 @@ export default async function handler(req, res) {
 
     // Replace Noobster details with your details across the entire JSON
     responseString = responseString
-      .replace(/https:\/\/t\.me\/noobsterrr/gi, 'https://t.me/zenoexploit1') // Channel link replace
-      .replace(/NOOB\$TER/gi, '𖦹 𝚉ᴇɴᴏ༆') // Developer name replace
-      .replace(/@nooobsterbot/gi, '@zenosupportox_bot') // Buy/bot username replace
-      .replace(/noobster/gi, 'zeno'); // Catch-all for any other mentions
+      .replace(/https:\/\/t\.me\/noobsterrr/gi, 'https://t.me/zenoexploit1') 
+      .replace(/NOOB\$TER/gi, '𖦹 𝚉ᴇɴᴏ༆') 
+      .replace(/@nooobsterbot/gi, '@zenosupportox_bot') 
+      .replace(/noobster/gi, 'zeno'); 
 
     // Parse the cleaned string back to JSON format
     const modifiedUpstreamData = JSON.parse(responseString);
 
-    // 8. Final Clean JSON Output (Merged with your usage stats & branding)
+    // 8. Final Clean JSON Output
     const cleanResponse = {
-      ...modifiedUpstreamData, // Upstream se aaya hua filter kiya gaya data
+      ...modifiedUpstreamData, 
       
-      // Aapki custom info jo end me append hogi
       api_user: userRecord.name,
       usage: {
         limit: dailyLimit,
